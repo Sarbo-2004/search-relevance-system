@@ -1,0 +1,11 @@
+pandas
+numpy
+scikit-learn
+nltk
+sentence-transformers
+rank-bm25
+xgboost
+fastapi
+matplotlib
+seaborn
+pickle
