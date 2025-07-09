@@ -8,4 +8,3 @@ xgboost
 fastapi
 matplotlib
 seaborn
-pickle
