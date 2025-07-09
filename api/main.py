@@ -2,7 +2,9 @@ from fastapi import FastAPI, Query
 from typing import List
 import pandas as pd
 from retrieval.sbert import SBERTRetriever
-from retrieval.bm25 import BM25Retriever  # Optional fallback
+from retrieval.bm25 import BM25Retriever 
+import uvicorn
+import os
 
 app = FastAPI(title="Smart Search API")
 
@@ -26,3 +28,7 @@ def search(query: str = Query(...), top_k: int = 5):
         results = bm25_engine.search(query, top_k)
 
     return results[["title", "price", "search_text"]].to_dict(orient="records")
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # Use Render's dynamic port
+    uvicorn.run("api.main:app", host="0.0.0.0", port=port, reload=False)
