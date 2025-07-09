@@ -62,25 +62,11 @@ pip install -r requirements.txt
 
 ---
 
-## 🧪 Quick Start
-
-### ✅ Step 1: Generate SBERT Embeddings
-```bash
-python embeddings/generate_sbert_embeddings.py
+## 3. ▶️ Run the app
 ```
-
-### ✅ Step 2: Run a Sample Search
-```python
-from retriever.sbert import SBERTRetriever
-retriever = SBERTRetriever("data/sbert_product_embeddings.pt")
-results = retriever.search("bluetooth earbuds under 2000")
+uvicorn api.main:app --reload
 ```
-
-### ✅ Step 3: (Optional) LLM Query Rewriting
-```python
-from query_rewriting.llm_rewriter import rewrite_query_with_llm
-print(rewrite_query_with_llm("bose but cheap"))
-```
+Visit: http://localhost:8000/docs
 
 ---
 
@@ -111,5 +97,5 @@ MIT License. Free to use for learning, research, or personal projects.
 
 ## 🙋‍♂️ Author
 
-**Sarbojeet Mondal**  
-Feel free to connect on [LinkedIn](https://www.linkedin.com) or raise issues for contributions!
+**Sarbojeet Soe Mondal**  
+Feel free to connect on [LinkedIn](www.linkedin.com/in/sarbojeet-soe-mondal-data-scientist) or raise issues for contributions!
