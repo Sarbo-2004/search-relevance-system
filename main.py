@@ -1,31 +1,30 @@
-import pandas as pd
-from retrieval.sbert import SBERTSemanticRetriever
-from query_processing.normalize import preprocess_query
+import streamlit as st
+import requests
 
+st.set_page_config(page_title="Search Relevance System", layout="centered")
 
-def main():
-    # Load your preprocessed product data
-    df_nlp = pd.read_pickle("data/df_nlp.pkl")
+API_URL = "http://localhost:8000/search"
 
-    # Path to cached SBERT embeddings
-    embedding_path = "data/sbert_product_embeddings.pt"
+st.title("🔍 Search Relevance System")
+st.write("Enter a product query to test this search engine.")
+st.write("Note: Please search for products based on electronics items only ")
 
-    # Initialize SBERT retriever with precomputed embeddings
-    retriever = SBERTSemanticRetriever(
-        df=df_nlp,
-        embedding_cache_path=embedding_path
-    )
+# --- User input ---
+query = st.text_input("Enter your search query")
 
-    # Run a test query
-    query = input("🔍 Enter your search query: ")
+if query:
+    with st.spinner("Searching..."):
+        response = requests.get(API_URL, params={"query": query})
+        
+        if response.status_code == 200:
+            results = response.json()
+            st.success(f"Top {len(results)} results for: **{query}**")
+            
+            for i, item in enumerate(results, 1):
+                st.markdown(f"**{i}. {item['title']}**")
+                st.markdown(f"Price: ${item['price']}")
+                st.markdown(f"Description: {item['search_text'][:200]}{'...' if len(item['search_text']) > 200 else ''}")
+                st.markdown("---")
+        else:
+            st.error("❌ Failed to fetch results. Check if FastAPI server is running.")
 
-    # Retrieve top results
-    results = retriever.search(query, preprocess_fn=preprocess_query, top_k=5)
-
-    # Display the results
-    print("\n🎯 Top 5 Results:")
-    print(results[["title", "price", "search_text"]].to_string(index=False))
-
-
-if __name__ == "__main__":
-    main()
