@@ -8,3 +8,5 @@ xgboost
 fastapi
 matplotlib
 seaborn
+uvicorn
+streamlit
