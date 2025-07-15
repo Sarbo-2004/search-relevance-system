@@ -5,9 +5,14 @@ from retrieval.sbert import SBERTRetriever
 from retrieval.bm25 import BM25Retriever 
 import uvicorn
 import os
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Smart Search API")
-
+app.add_middleware(CORSMiddleware, 
+                 allow_origins=["*"], 
+                 allow_credentials=True, 
+                 allow_methods=["*"], 
+                 allow_headers=["*"])
 # Load DataFrame
 df = pd.read_pickle("data/df_nlp.pkl")
 
