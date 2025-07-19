@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 
 # Copy requirements first and install them
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy app code
 COPY ./api /app/api
