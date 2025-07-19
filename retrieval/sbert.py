@@ -10,7 +10,7 @@ class SBERTRetriever:
         self.embeddings = torch.load(embedding_path, map_location=torch.device('cpu'))
         self.model = SentenceTransformer("all-MiniLM-L6-v2")
 
-    def search(self, query, top_k=5):
+    def search(self, query, top_k=5, return_scores=False):
         # Encode the query
         query_embedding = self.model.encode(query, convert_to_tensor=True)
         
@@ -20,5 +20,11 @@ class SBERTRetriever:
         # Get top_k results
         top_results = torch.topk(scores, k=top_k)
         top_indices = top_results.indices.cpu().numpy()
+        top_scores = top_results.values.cpu().numpy()
         
-        return self.df.iloc[top_indices]
+        result_df = self.df.iloc[top_indices].reset_index(drop=True)
+
+        if return_scores:
+            return result_df, top_scores.tolist()
+        else:
+            return result_df

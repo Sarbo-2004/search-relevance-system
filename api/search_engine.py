@@ -13,4 +13,4 @@ class SearchEngine:
             results = self.sbert.search(query, top_k)
         except:
             results = self.bm25.search(query, top_k)
-        return results[["title", "price", "search_text"]].to_dict(orient="records")
+        return results[["title", "price", "search_text","images","categories"]].to_dict(orient="records")
