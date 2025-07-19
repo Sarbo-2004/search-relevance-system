@@ -1,20 +1,29 @@
-# Use official Python image as base
+# Use official slim Python image
 FROM python:3.10-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Set working directory
 WORKDIR /app
 
-# Copy requirements (if you have requirements.txt)
-COPY requirements.txt .
+# Install system dependencies (optional but good for scientific packages)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
+# Copy requirements first and install them
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# Copy the rest of the code
-COPY . .
+# Copy app code
+COPY ./api /app/api
+COPY ./retrieval /app/retrieval
+COPY ./data /app/data
 
-# Expose the port FastAPI will run on
+# Expose FastAPI port
 EXPOSE 8000
 
-# Command to run the FastAPI app with uvicorn
+# Start FastAPI server
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
