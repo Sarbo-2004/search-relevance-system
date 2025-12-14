@@ -1,1 +1,3 @@
 data/meta_Electronics.jsonl
+*node_modules/
+*_pycache_/

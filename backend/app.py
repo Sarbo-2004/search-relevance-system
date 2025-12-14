@@ -27,7 +27,7 @@ class SearchRequest(BaseModel):
 
 class ProductResult(BaseModel):
     title: str
-    retrieval_source: str
+    price: float | str
 
 
 class SearchResponse(BaseModel):
@@ -92,7 +92,7 @@ def search_rag(request: SearchRequest):
     for _, row in retrieved_df.iterrows():
         products.append({
             "title": row["title"],
-            "retrieval_source": row["retrieval_source"]
+            "price": row.get("price", "N/A")
         })
 
     return {

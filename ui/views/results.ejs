@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Search Results</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Back link -->
+    <a href="/" class="back-link">← New Search</a>
+
+    <!-- Query -->
+    <h2 class="query-title">
+      Results for: "<%= query %>"
+    </h2>
+
+    <!-- AI Summary -->
+    <section class="answer-box">
+      <h3>AI Summary</h3>
+      <div class="answer-content">
+        <%- answerHtml %>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products">
+      <h3>Top Products</h3>
+
+      <div class="product-grid">
+        <% products.forEach(product => { %>
+          <div class="product-card">
+            <h4 class="product-title">
+              <%= product.title %>
+            </h4>
+            <p class="price">
+              $ <%= product.price %>
+            </p>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>
